@@ -11,5 +11,9 @@ class Math_absolute : public RTT::TaskContext{
     void updateHook();
     void stopHook();
     void cleanupHook();
+  private:
+    RTT::InputPort<double> _evPort;
+    RTT::OutputPort<double> _outPort;
+    double absolute(double _in);
 };
 #endif

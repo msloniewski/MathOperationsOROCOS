@@ -3,6 +3,9 @@
 #include <iostream>
 
 Math_siglog::Math_siglog(std::string const& name) : TaskContext(name){
+  this->ports()->addEventPort( "evPort", _evPort ).doc( "Input Port that raises an event." );
+  this->addAttribute( "Value", Value );
+  Value=0;
   std::cout << "Math_siglog constructed !" <<std::endl;
 }
 
@@ -17,6 +20,11 @@ bool Math_siglog::startHook(){
 }
 
 void Math_siglog::updateHook(){
+  double val = 0.0; 
+  if ( _evPort.read(val) == RTT::NewData ) {
+         // update val...
+         Value=val;
+       }
   std::cout << "Math_siglog executes updateHook !" <<std::endl;
 }
 

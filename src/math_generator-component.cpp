@@ -1,22 +1,38 @@
 #include "math_generator-component.hpp"
 #include <rtt/Component.hpp>
 #include <iostream>
+#include <cmath>
 
 Math_generator::Math_generator(std::string const& name) : TaskContext(name){
+  Omega=0;
+  Phase=0;
+  this->ports()->addPort( "outPort", _outPort ).doc( "Output Port, here write our data to." );
   std::cout << "Math_generator constructed !" <<std::endl;
 }
 
 bool Math_generator::configureHook(){
+  // Set component activitiy
+  if(setActivity(new RTT::Activity(ORO_SCHED_RT,
+                 1,//_priority,
+                 1,//_period,
+                 1,//_cpu_affinity,
+                 0,
+                 getName())) == false){
+    std::cout << "Unable to set activity!" << std::endl;
+    return false;
+  }
   std::cout << "Math_generator configured !" <<std::endl;
   return true;
 }
 
 bool Math_generator::startHook(){
+  FirstMoment= RTT::os::TimeService::Instance()->getTicks();
   std::cout << "Math_generator started !" <<std::endl;
   return true;
 }
 
 void Math_generator::updateHook(){
+  _outPort.write( this->MakeSine() );
   std::cout << "Math_generator executes updateHook !" <<std::endl;
 }
 
@@ -28,6 +44,10 @@ void Math_generator::cleanupHook() {
   std::cout << "Math_generator cleaning up !" <<std::endl;
 }
 
+double Math_generator::MakeSine()
+{
+  return sin(Omega*RTT::os::TimeService::Instance()->secondsSince(FirstMoment) + Phase + 1.5);
+} 
 /*
  * Using this macro, only one component may live
  * in one library *and* you may *not* link this library

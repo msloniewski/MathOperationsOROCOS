@@ -3,6 +3,9 @@
 #include <iostream>
 
 Math_absolute::Math_absolute(std::string const& name) : TaskContext(name){
+  this->ports()->addEventPort( "evPort", _evPort ).doc( "Input Port that raises an event." );
+  this->ports()->addPort( "outPort", _outPort ).doc( "Output Port, here write our data to." );
+  
   std::cout << "Math_absolute constructed !" <<std::endl;
 }
 
@@ -17,6 +20,11 @@ bool Math_absolute::startHook(){
 }
 
 void Math_absolute::updateHook(){
+  double val = 0.0; 
+  if ( _evPort.read(val) == RTT::NewData ) {
+         // update val...
+         _outPort.write( this->absolute(val) );
+       }
   std::cout << "Math_absolute executes updateHook !" <<std::endl;
 }
 
@@ -27,7 +35,12 @@ void Math_absolute::stopHook() {
 void Math_absolute::cleanupHook() {
   std::cout << "Math_absolute cleaning up !" <<std::endl;
 }
-
+double Math_absolute::absolute(double _in) {
+  if (_in<0)
+	return -1*_in;
+  else
+	return _in;
+}
 /*
  * Using this macro, only one component may live
  * in one library *and* you may *not* link this library

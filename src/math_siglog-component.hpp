@@ -11,5 +11,8 @@ class Math_siglog : public RTT::TaskContext{
     void updateHook();
     void stopHook();
     void cleanupHook();
+  private:
+    RTT::InputPort<double> _evPort;
+    double Value;
 };
 #endif
