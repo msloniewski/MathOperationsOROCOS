@@ -3,6 +3,8 @@
 #include <iostream>
 
 Math_derivative::Math_derivative(std::string const& name) : TaskContext(name){
+  this->ports()->addEventPort( "evPort", _evPort ).doc( "Input Port that raises an event." );
+  this->ports()->addPort( "outPort", _outPort ).doc( "Output Port, here write our data to." );
   std::cout << "Math_derivative constructed !" <<std::endl;
 }
 
@@ -12,12 +14,21 @@ bool Math_derivative::configureHook(){
 }
 
 bool Math_derivative::startHook(){
+  LastMoment= RTT::os::TimeService::Instance()->getTicks();
+  LastValue=0;
   std::cout << "Math_derivative started !" <<std::endl;
   return true;
 }
 
 void Math_derivative::updateHook(){
-  std::cout << "Math_derivative executes updateHook !" <<std::endl;
+  double val = 0.0; 
+  if ( _evPort.read(val) == RTT::NewData ) {
+         // update val...
+         _outPort.write((val-LastValue)/RTT::os::TimeService::Instance()->secondsSince(LastMoment));
+       }
+  LastMoment=RTT::os::TimeService::Instance()->getTicks();
+  LastValue=val;
+  //std::cout << "Math_derivative executes updateHook !" <<std::endl;
 }
 
 void Math_derivative::stopHook() {

@@ -19,5 +19,7 @@ class Math_generator : public RTT::TaskContext{
     double Phase;
     RTT::os::TimeService::ticks FirstMoment;
     double MakeSine();
+    void ChangeFrequency(double in);
+    void ChangePhase(double in);
 };
 #endif

@@ -25,7 +25,7 @@ void Math_absolute::updateHook(){
          // update val...
          _outPort.write( this->absolute(val) );
        }
-  std::cout << "Math_absolute executes updateHook !" <<std::endl;
+  //std::cout << "Math_absolute executes updateHook !" <<std::endl;
 }
 
 void Math_absolute::stopHook() {

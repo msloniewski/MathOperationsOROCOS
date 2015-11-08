@@ -3,6 +3,13 @@
 #include <iostream>
 
 Math_amplification::Math_amplification(std::string const& name) : TaskContext(name){
+  this->ports()->addEventPort( "evPort", _evPort ).doc( "Input Port that raises an event." );
+  this->ports()->addPort( "outPort", _outPort ).doc( "Output Port, here write our data to." );
+  this->addOperation( "changeParameter", &Math_amplification::ChangeCoefficient, this, RTT::OwnThread)
+                                   .doc("Change a parameter, return the old value.")
+                                   .arg("New Value", "The new value for the parameter."); 
+  this->addAttribute( "Value", k );
+  k=2;
   std::cout << "Math_amplification constructed !" <<std::endl;
 }
 
@@ -17,6 +24,11 @@ bool Math_amplification::startHook(){
 }
 
 void Math_amplification::updateHook(){
+  double val = 0.0; 
+  if ( _evPort.read(val) == RTT::NewData ) {
+         // update val...
+         _outPort.write( k*val );
+       }
   std::cout << "Math_amplification executes updateHook !" <<std::endl;
 }
 
@@ -26,6 +38,10 @@ void Math_amplification::stopHook() {
 
 void Math_amplification::cleanupHook() {
   std::cout << "Math_amplification cleaning up !" <<std::endl;
+}
+
+void Math_amplification::ChangeCoefficient(double in) {
+  k=in;
 }
 
 /*

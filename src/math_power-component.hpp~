@@ -5,7 +5,7 @@
 
 class Math_power : public RTT::TaskContext{
   public:
-    Power(std::string const& name);
+    Math_power(std::string const& name);
     bool configureHook();
     bool startHook();
     void updateHook();

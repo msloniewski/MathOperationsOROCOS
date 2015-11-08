@@ -3,6 +3,13 @@
 #include <iostream>
 
 Math_offset::Math_offset(std::string const& name) : TaskContext(name){
+  this->ports()->addEventPort( "evPort", _evPort ).doc( "Input Port that raises an event." );
+  this->ports()->addPort( "outPort", _outPort ).doc( "Output Port, here write our data to." );
+  this->addOperation( "changeParameter", &Math_offset::ChangeOffset, this, RTT::OwnThread)
+                                   .doc("Change a parameter, return the old value.")
+                                   .arg("New Value", "The new value for the parameter."); 
+  this->addAttribute( "Value", a);
+  a=0;
   std::cout << "Math_offset constructed !" <<std::endl;
 }
 
@@ -17,6 +24,11 @@ bool Math_offset::startHook(){
 }
 
 void Math_offset::updateHook(){
+  double val = 0.0; 
+  if ( _evPort.read(val) == RTT::NewData ) {
+         // update val...
+         _outPort.write( val+a );
+       }
   std::cout << "Math_offset executes updateHook !" <<std::endl;
 }
 
@@ -26,6 +38,9 @@ void Math_offset::stopHook() {
 
 void Math_offset::cleanupHook() {
   std::cout << "Math_offset cleaning up !" <<std::endl;
+}
+void Math_offset::ChangeOffset(double in) {
+  a=in;
 }
 
 /*

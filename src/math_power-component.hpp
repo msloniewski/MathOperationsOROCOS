@@ -11,5 +11,8 @@ class Math_power : public RTT::TaskContext{
     void updateHook();
     void stopHook();
     void cleanupHook();
+  private:
+    RTT::InputPort<double> _evPort;
+    RTT::OutputPort<double> _outPort;
 };
 #endif

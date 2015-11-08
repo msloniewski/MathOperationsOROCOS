@@ -11,5 +11,9 @@ class Math_sum : public RTT::TaskContext{
     void updateHook();
     void stopHook();
     void cleanupHook();
+  private:
+    RTT::InputPort<double> _evPort1;
+    RTT::InputPort<double> _evPort2;
+    RTT::OutputPort<double> _outPort;
 };
 #endif

@@ -3,6 +3,9 @@
 #include <iostream>
 
 Math_sum::Math_sum(std::string const& name) : TaskContext(name){
+  this->ports()->addEventPort( "evPort1", _evPort1 ).doc( "Input Port that raises an event." );
+  this->ports()->addPort( "evPort2", _evPort2 ).doc( "Input Port that raises an event." );
+  this->ports()->addPort( "outPort", _outPort ).doc( "Output Port, here write our data to." );
   std::cout << "Math_sum constructed !" <<std::endl;
 }
 
@@ -17,6 +20,12 @@ bool Math_sum::startHook(){
 }
 
 void Math_sum::updateHook(){
+  double val1 = 0.0; 
+  double val2 = 0.0;
+  _evPort1.read(val1);
+  _evPort2.read(val2);
+         // update val...
+  _outPort.write( val1+val2 );
   std::cout << "Math_sum executes updateHook !" <<std::endl;
 }
 

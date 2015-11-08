@@ -3,6 +3,8 @@
 #include <iostream>
 
 Math_power::Math_power(std::string const& name) : TaskContext(name){
+  this->ports()->addEventPort( "evPort", _evPort ).doc( "Input Port that raises an event." );
+  this->ports()->addPort( "outPort", _outPort ).doc( "Output Port, here write our data to." );
   std::cout << "Math_power constructed !" <<std::endl;
 }
 
@@ -17,6 +19,11 @@ bool Math_power::startHook(){
 }
 
 void Math_power::updateHook(){
+  double val = 0.0; 
+  if ( _evPort.read(val) == RTT::NewData ) {
+         // update val...
+         _outPort.write( val*val );
+       }
   std::cout << "Math_power executes updateHook !" <<std::endl;
 }
 

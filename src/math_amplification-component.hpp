@@ -11,5 +11,10 @@ class Math_amplification : public RTT::TaskContext{
     void updateHook();
     void stopHook();
     void cleanupHook();
+  private:
+    RTT::InputPort<double> _evPort;
+    RTT::OutputPort<double> _outPort;
+    double k;
+    void ChangeCoefficient(double in);
 };
 #endif

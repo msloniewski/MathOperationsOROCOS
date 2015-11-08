@@ -7,6 +7,14 @@ Math_generator::Math_generator(std::string const& name) : TaskContext(name){
   Omega=0;
   Phase=0;
   this->ports()->addPort( "outPort", _outPort ).doc( "Output Port, here write our data to." );
+  this->addOperation( "changeFrequency", &Math_generator::ChangeFrequency, this, RTT::OwnThread)
+                                   .doc("Change a parameter, return the old value.")
+                                   .arg("New Value", "The new value for the parameter."); 
+  this->addOperation( "changePhase", &Math_generator::ChangePhase, this, RTT::OwnThread)
+                                   .doc("Change a parameter, return the old value.")
+                                   .arg("New Value", "The new value for the parameter."); 
+  this->addAttribute( "Omega", Omega );
+  this->addAttribute( "Phase", Phase );
   std::cout << "Math_generator constructed !" <<std::endl;
 }
 
@@ -14,7 +22,7 @@ bool Math_generator::configureHook(){
   // Set component activitiy
   if(setActivity(new RTT::Activity(ORO_SCHED_RT,
                  1,//_priority,
-                 1,//_period,
+                 0.01,//_period,
                  1,//_cpu_affinity,
                  0,
                  getName())) == false){
@@ -33,7 +41,7 @@ bool Math_generator::startHook(){
 
 void Math_generator::updateHook(){
   _outPort.write( this->MakeSine() );
-  std::cout << "Math_generator executes updateHook !" <<std::endl;
+  //std::cout << "Math_generator executes updateHook !" <<std::endl;
 }
 
 void Math_generator::stopHook() {
@@ -46,8 +54,17 @@ void Math_generator::cleanupHook() {
 
 double Math_generator::MakeSine()
 {
-  return sin(Omega*RTT::os::TimeService::Instance()->secondsSince(FirstMoment) + Phase + 1.5);
+  return sin(Omega*RTT::os::TimeService::Instance()->secondsSince(FirstMoment) + Phase);
 } 
+void Math_generator::ChangeFrequency(double in)
+{
+  Omega=in;
+} 
+void Math_generator::ChangePhase(double in)
+{
+  Phase=in;
+} 
+
 /*
  * Using this macro, only one component may live
  * in one library *and* you may *not* link this library
