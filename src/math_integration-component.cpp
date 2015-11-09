@@ -27,10 +27,11 @@ void Math_integration::updateHook(){
   double val = 0.0; 
   if ( _evPort.read(val) == RTT::NewData ) {
          // update val...
-         Sum+=val;
+         Sum+=val*RTT::os::TimeService::Instance()->secondsSince(LastMoment);
          _outPort.write(Sum);
        }
-  std::cout << "Math_integration executes updateHook !" <<std::endl;
+  LastMoment=RTT::os::TimeService::Instance()->getTicks();
+  //std::cout << "Math_integration executes updateHook !" <<std::endl;
 }
 
 void Math_integration::stopHook() {

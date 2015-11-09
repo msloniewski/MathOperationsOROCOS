@@ -29,7 +29,7 @@ void Math_offset::updateHook(){
          // update val...
          _outPort.write( val+a );
        }
-  std::cout << "Math_offset executes updateHook !" <<std::endl;
+  //std::cout << "Math_offset executes updateHook !" <<std::endl;
 }
 
 void Math_offset::stopHook() {

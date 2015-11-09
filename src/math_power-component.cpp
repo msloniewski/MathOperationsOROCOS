@@ -24,7 +24,7 @@ void Math_power::updateHook(){
          // update val...
          _outPort.write( val*val );
        }
-  std::cout << "Math_power executes updateHook !" <<std::endl;
+  //std::cout << "Math_power executes updateHook !" <<std::endl;
 }
 
 void Math_power::stopHook() {

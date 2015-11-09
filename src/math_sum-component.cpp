@@ -26,7 +26,7 @@ void Math_sum::updateHook(){
   _evPort2.read(val2);
          // update val...
   _outPort.write( val1+val2 );
-  std::cout << "Math_sum executes updateHook !" <<std::endl;
+  //std::cout << "Math_sum executes updateHook !" <<std::endl;
 }
 
 void Math_sum::stopHook() {

@@ -19,6 +19,11 @@ bool Math_power::startHook(){
 }
 
 void Math_power::updateHook(){
+  double val = 0.0; 
+  if ( _evPort.read(val) == RTT::NewData ) {
+         // update val...
+         _outPort.write( val*val );
+       }
   std::cout << "Math_power executes updateHook !" <<std::endl;
 }
 

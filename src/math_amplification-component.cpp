@@ -9,7 +9,7 @@ Math_amplification::Math_amplification(std::string const& name) : TaskContext(na
                                    .doc("Change a parameter, return the old value.")
                                    .arg("New Value", "The new value for the parameter."); 
   this->addAttribute( "Value", k );
-  k=2;
+  k=1;
   std::cout << "Math_amplification constructed !" <<std::endl;
 }
 
@@ -29,7 +29,7 @@ void Math_amplification::updateHook(){
          // update val...
          _outPort.write( k*val );
        }
-  std::cout << "Math_amplification executes updateHook !" <<std::endl;
+  //std::cout << "Math_amplification executes updateHook !" <<std::endl;
 }
 
 void Math_amplification::stopHook() {
