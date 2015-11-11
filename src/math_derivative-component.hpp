@@ -18,5 +18,6 @@ class Math_derivative : public RTT::TaskContext{
     RTT::InputPort<double> _evPort;
     RTT::os::TimeService::ticks LastMoment;
     double LastValue;
+    int FirstTime;
 };
 #endif

@@ -16,13 +16,21 @@ bool Math_derivative::configureHook(){
 bool Math_derivative::startHook(){
   LastMoment= RTT::os::TimeService::Instance()->getTicks();
   LastValue=0;
+  FirstTime=0;
   std::cout << "Math_derivative started !" <<std::endl;
   return true;
 }
 
 void Math_derivative::updateHook(){
   double val = 0.0; 
-  if ( _evPort.read(val) == RTT::NewData ) {
+  if(FirstTime==0)
+  {
+     _outPort.write(0);
+     FirstTime=1;
+     _evPort.read(val);
+  }
+  if ( FirstTime==1 ) {
+         _evPort.read(val);
          // update val...
          _outPort.write((val-LastValue)/RTT::os::TimeService::Instance()->secondsSince(LastMoment));
        }
