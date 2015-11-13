@@ -20,6 +20,7 @@ orocos_component(math_derivative math_derivative-component.hpp math_derivative-c
 orocos_component(math_sum math_sum-component.hpp math_sum-component.cpp) 
 orocos_component(math_generator math_generator-component.hpp math_generator-component.cpp) 
 orocos_component(math_siglog math_siglog-component.hpp math_siglog-component.cpp) 
+orocos_component(math_mult math_mult-component.hpp math_mult-component.cpp)
 # ...you may add multiple source files
 #
 # You may add multiple orocos_component statements.
@@ -29,7 +30,7 @@ orocos_component(math_siglog math_siglog-component.hpp math_siglog-component.cpp
 #
 # Installs in the include/orocos/mathops/ directory
 #
-orocos_install_headers(mathops-component.hpp math_power-component.hpp math_offset-component.hpp math_amplification-component.hpp math_absolute-component.hpp math_integration-component.hpp math_derivative-component.hpp math_sum-component.hpp math_generator-component.hpp math_siglog-component.hpp) # ...you may add multiple header files
+orocos_install_headers(mathops-component.hpp math_power-component.hpp math_offset-component.hpp math_amplification-component.hpp math_absolute-component.hpp math_integration-component.hpp math_derivative-component.hpp math_sum-component.hpp math_generator-component.hpp math_siglog-component.hpp math_mult-component.hpp) # ...you may add multiple header files
 #
 # You may add multiple orocos_install_headers statements.
 
